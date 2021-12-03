@@ -1,4 +1,4 @@
-//I didn't format it this way when I initially did the solve, but based on a tip from EBuckner that hse got from DMock, and then https://stackoverflow.com/questions/28543821/convert-csv-lines-into-javascript-objects/28544299 I came up with this in the refactor.
+//I didn't use this formatting code when I initially did the solve (I used the column selection mode feature in vs code and did it manually) but based on a tip from EBuckner that hse got from DMock, and then https://stackoverflow.com/questions/28543821/convert-csv-lines-into-javascript-objects/28544299 I came up with this in the refactor.
 
 // Test Data
 /*
