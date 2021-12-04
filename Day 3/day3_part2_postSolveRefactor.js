@@ -1,6 +1,11 @@
 //Post-solve refactor with help from Kevin Talley :)
 // Work-in-progress
 
+/*
+another thing i noticed was how you accessed each character/digit. you can access them more easily by using an index vs. slice
+co2ScrubArray[i].slice(start,stop) === co2ScrubArray[i][d-1]
+*/
+
 // Test Data
 const data = `00100
 11110

@@ -1,5 +1,38 @@
 //Post-solve refactor with help from Kevin Talley :)
 
+/*
+let tempCounts = [
+  { zero: 0, one: 0 },
+  { zero: 0, one: 0 },
+  { zero: 0, one: 0 },
+  { zero: 0, one: 0 },
+  { zero: 0, one: 0 },
+  { zero: 0, one: 0 },
+  { zero: 0, one: 0 },
+  { zero: 0, one: 0 },
+  { zero: 0, one: 0 },
+  { zero: 0, one: 0 },
+  { zero: 0, one: 0 },
+  { zero: 0, one: 0 },
+];
+
+// loop over each number in the array with .forEach()
+numbers.forEach((n) => {
+    // loop over each digit in that number using the for()
+    for (let i = 0; i < 12; i++) {
+        // compare the digit to one or zero with n[i]
+        if (n[i] === '1') {
+            tempCounts[i].one++;
+        } else {
+             tempCounts[i].zero++;
+        }
+    }
+});
+
+When looking at a string. you can get each character via it’s index. so number[5] will tell me the sixth digit in the number (zero-based indexing) JS looks at a string as an array of characters
+*/
+
+
 // Test Data
 const data = `00100
 11110
