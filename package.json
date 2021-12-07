@@ -1,0 +1,16 @@
+{
+  "name": "advent-of-code-2021",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node ./index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "UNLICENSED",
+  "dependencies": {
+    "chalk": "^5.0.0",
+    "underscore": "^1.13.1"
+  }
+}
