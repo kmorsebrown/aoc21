@@ -142,3 +142,26 @@ for (rowIndex = 0; rowIndex < winningBoardArr.length; rowIndex++) {
 const partOneAnswer = sumOfUnmarked * lastDrawnNumber;
 
 console.log('Answer: ', partOneAnswer);
+
+/* Temp test col code
+
+boards = [
+  [ 14, 21, 17, 24, 4 ],
+  [ 10, 16, 15, 9, 19 ],
+  [ 18, 8, 23, 26, 20 ],
+  [ 22, 11, 13, 6, 5 ],
+  [ 2, 0, 12, 3, 7 ]
+];
+
+for (colIndex = 0; colIndex < 5; colIndex++) {
+ let tempColArray = []
+ for (rowIndex = 0; rowIndex < 5; rowIndex++) {
+  console.log('col ', colIndex, ' row ', rowIndex);
+  console.log(boards[rowIndex][colIndex]);
+  console.log(tempColArray)
+  tempColArray.push(boards[rowIndex][colIndex]);
+ }
+ console.log('tempColArray ', tempColArray, 'ColIndex', colIndex)
+};
+
+*/
