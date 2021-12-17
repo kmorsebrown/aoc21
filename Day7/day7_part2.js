@@ -17,17 +17,28 @@ const startPositionList = convertToNumArray(unformattedData);
 
 //console.log(startPositionList);
 
-//Each change of 1 step in horizontal position of a single crab costs 1 fuel
+//Each change of 1 step in horizontal position of a single crab costs 1 more fuel than the last: the first step costs 1, the second step costs 2, the third step costs 3, and so on.
+
 function calculateFuelCost(input, newPosition) {
     let arr = [];
-    // For every current position in the list, figure out the fuel cost to move to the new position
+    // For every current position in the list
     for (var i = 0; i < input.length; i++) {
-        let fuelCost;
-
+        let fuelCost = 0;
+        let numSteps;
+        //console.log('Crab index',i,'Start position',input[i],'end position',newPosition);
+        
+        //Calculate the number of steps between positions
         if (input[i] < newPosition) {
-            fuelCost = newPosition - input[i];
+            numSteps = newPosition - input[i];
         } else {
-            fuelCost = input[i] - newPosition;
+            numSteps = input[i] - newPosition;
+        }
+        //console.log(numSteps);
+        
+        //For each step between positions, calculate the fuel cost
+        for (var j = 1; j <= numSteps; j++) {
+            fuelCost += j;
+            //console.log('step',j,'fuel cost',fuelCost);
         }
         arr.push(fuelCost);
     }
