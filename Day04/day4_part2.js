@@ -1,187 +1,143 @@
-// Format Drawn Numbers
-const inputNum = require('./inputNum');
-const drawnNumbers = inputNum.split(',');
+const {testNumInput, puzzleNumInput} = require('./inputNum');
+const {testBoardsInput, puzzleBoardsInput} = require('./inputBoards');
+const {createCalledNumArr, createBoardsArr} = require('./functions');
 
-for (i = 0; i < drawnNumbers.length; i++){
-    drawnNumbers[i] = parseInt(drawnNumbers[i])
-}
-
-//console.log(drawnNumbers);
+// Format Called Numbers
+const calledNumArr = createCalledNumArr(puzzleNumInput);
+console.log (calledNumArr);
 
 // Format boards
-const inputBoards = require('./inputBoards');
-
-const tempBoards = inputBoards.split('\n').filter(String)
-
-function createBoards( array ) {
-    let tempArray = [];
-    while (array.length > 0) {
-        let arrayElement = array.splice(0,5);
-        tempArray.push(arrayElement);
-    }
-    return tempArray;
-}
-
-const boards = createBoards(tempBoards);
-
-for (var i = 0; i < boards.length; i++) {
-    for (x = 0; x < boards[i].length; x++) {
-        const regex = /\d+/g;
-        const arrayElement = boards[i][0].match(regex);
-        for (y = 0; y < arrayElement.length; y++){
-            arrayElement[y] = parseInt(arrayElement[y])
-        }
-        const newBoard = boards[i].slice(1);
-        newBoard.push(arrayElement);
-        boards[i] = newBoard;
-    }
-}
-
-//console.log('Boards: ',boards);
+const boardsArr = createBoardsArr(puzzleBoardsInput);
+console.log('Boards: ',boardsArr);
 
 // Part 1
 
-let winningBoardArr;
-let drawnNumIndex = 0;
-let tempWinLossBoards = [];
-let checkedNumbers = [];
+function getWinningBoard(boards,drawnNumbers) {
+    let winningData = {};
+    let drawnNumIndex = 0;
+    let tempWinLossBoards = [];
+    let checkedNumbers = [];
 
-//Loop until there's a winner
-labelCancelLoops: while (true) {
+    //Loop until there's a winner
+    labelCancelLoops: while (true) {
     let currentDrawnNumber = drawnNumbers[drawnNumIndex];
-    let winningRow;
-    let winningColumn;
+        let winningRow;
+        let winningColumn;
 
-    checkedNumbers.push(currentDrawnNumber);
-    //console.log('Currnet Drawn Num ', currentDrawnNumber);
+        checkedNumbers.push(currentDrawnNumber);
 
-    //Check each board
-    for (boardIndex = 0; boardIndex < boards.length; boardIndex++) {
-        //console.log('Checking board ' + boardIndex);
+        //Check each board
+        for (boardIndex = 0; boardIndex < boards.length; boardIndex++) {
+            //console.log('Checking board ' + boardIndex);
 
-        //create a new board object inside the tempWinLossBoards array if there isn't one already at the current index
-        if (!tempWinLossBoards[boardIndex]) {
-            const boardTemplate = {
-                "rowMatches": [0,0,0,0,0],
-                "columnMatches": [0,0,0,0,0]
-              };
-              tempWinLossBoards.push(JSON.parse(JSON.stringify(boardTemplate)));
-        };
+            //create a new board object inside the tempWinLossBoards array if there isn't one already at the current index
+            if (!tempWinLossBoards[boardIndex]) {
+                const boardTemplate = {
+                    "rowMatches": [0,0,0,0,0],
+                    "columnMatches": [0,0,0,0,0]
+                };
+                tempWinLossBoards.push(JSON.parse(JSON.stringify(boardTemplate)));
+            };
 
-        //check each row in the board array
-        for (rowIndex = 0; rowIndex < boards[boardIndex].length; rowIndex++) {
+            //check each row in the board array
+            for (rowIndex = 0; rowIndex < boards[boardIndex].length; rowIndex++) {
 
-            //check each number in the row array
-            for (numIndex = 0; numIndex < boards[boardIndex][rowIndex].length; numIndex++) {
+                //check each number in the row array
+                for (numIndex = 0; numIndex < boards[boardIndex][rowIndex].length; numIndex++) {
 
-                //if the value of the number index is the same as the current drawn row, iterate the row match
-                if (boards[boardIndex][rowIndex][numIndex] === currentDrawnNumber) {
-                    tempWinLossBoards[boardIndex].rowMatches[rowIndex] += 1;
+                    //if the value of the number index is the same as the current drawn row, iterate the row match
+                    if (boards[boardIndex][rowIndex][numIndex] === currentDrawnNumber) {
+                        tempWinLossBoards[boardIndex].rowMatches[rowIndex] += 1;
+                    }
+                }
+
+                //check if the current rowIndex wins
+                if (tempWinLossBoards[boardIndex].rowMatches[rowIndex] === boards[boardIndex][rowIndex].length) {
+                    winningRow = rowIndex;
                 }
             }
 
-            //check if the current rowIndex wins
-            if (tempWinLossBoards[boardIndex].rowMatches[rowIndex] === boards[boardIndex][rowIndex].length) {
-                winningRow = rowIndex;
-            }
-        }
-        //console.log('tempWinLossBoards after check rows ', tempWinLossBoards);
-        //console.log('winningRow: ', winningRow);
-        //console.log('currentBoard ', boards[boardIndex]);
+            //check each column in the board array
 
-        //check each column in the board array
+            for (colIndex = 0; colIndex < 5; colIndex++) {
+                let tempColArray = []
 
-        for (colIndex = 0; colIndex < 5; colIndex++) {
-            let tempColArray = []
+                //Create a temporary array for the current column
+                for (rowIndex = 0; rowIndex < 5; rowIndex++) {
+                    tempColArray.push(boards[boardIndex][rowIndex][colIndex]);
+                }
+                //console.log(tempColArray, colIndex);
 
-            //Create a temporary array for the current column
-            for (rowIndex = 0; rowIndex < 5; rowIndex++) {
-                tempColArray.push(boards[boardIndex][rowIndex][colIndex]);
-            }
-            //console.log(tempColArray, colIndex);
+                //check each number in the column array
+                for (numIndex = 0; numIndex < tempColArray.length; numIndex++) {
 
-            //check each number in the column array
-            for (numIndex = 0; numIndex < tempColArray.length; numIndex++) {
+                    //if the value of the number index is the same as the current drawn column, iterate the column match
+                    if (tempColArray[numIndex] === currentDrawnNumber) {
+                        tempWinLossBoards[boardIndex].columnMatches[colIndex] += 1;
+                    }
+                }
 
-                //if the value of the number index is the same as the current drawn column, iterate the column match
-                if (tempColArray[numIndex] === currentDrawnNumber) {
-                    tempWinLossBoards[boardIndex].columnMatches[colIndex] += 1;
+                //check if the current colIndex wins
+                if (tempWinLossBoards[boardIndex].columnMatches[colIndex] === tempColArray.length) {
+                    winningColumn = colIndex;
                 }
             }
 
-            //check if the current colIndex wins
-            if (tempWinLossBoards[boardIndex].columnMatches[colIndex] === tempColArray.length) {
-                winningColumn = colIndex;
+            //check each if there's a winner
+            if (typeof winningRow === "number" || typeof winningColumn === "number") {
+                winningData.winningBoardArr = boards[boardIndex];
+                winningData.lastNumIndex = drawnNumIndex;
+                winningData.lastDrawnNum = drawnNumbers[drawnNumIndex];
+                break labelCancelLoops;
             }
-        }
-
-        //console.log('tempWinLossBoards after check cols ', tempWinLossBoards);
-        //console.log('winningColumn: ', winningColumn);
-        //console.log('currentBoard ', boards[boardIndex]);
-
-        //check each if there's a winner
-        if (typeof winningRow === "number" || typeof winningColumn === "number") {
-            winningBoardArr = boards[boardIndex];
-            //console.log('winningBoard: ', winningBoardArr);
-            break labelCancelLoops;
+            
         }
         
+        if (!winningData.winningBoardArr) {
+            //If no winning board yet, draw a new number
+            drawnNumIndex++;
+        }
     }
-    
-    if (!winningBoardArr) {
-        //If no winning board yet, draw a new number
-        drawnNumIndex++;
-    }
+    return winningData;
 }
 
-console.log('winningBoard: ', winningBoardArr);
+const winBoardObj = getWinningBoard(boardsArr,calledNumArr);
+console.log(winBoardObj);
 
-let lastDrawnNumber = drawnNumbers[drawnNumIndex]
-let sumOfUnmarked = 0;
+function getNumbersCalledBeforeWin(drawnNumbers,winNumIndex) {
+    let checkedNumbers = [];
 
-// Get sum of unmarked numbers on winning board
-
-console.log('Numbers drawn until win ', checkedNumbers);
-console.log('Last Drawn Number ', lastDrawnNumber);
-
-for (rowIndex = 0; rowIndex < winningBoardArr.length; rowIndex++) {
-    //console.log('Checking row ', rowIndex);
-    
-    //check each number in the row array
-    for (numIndex = 0; numIndex < winningBoardArr[rowIndex].length; numIndex++) {
-        //console.log('    Checking numIndex ', numIndex);
-        //console.log('    Checking number ', winningBoardArr[rowIndex][numIndex]);
-        if (!checkedNumbers.includes(winningBoardArr[rowIndex][numIndex])) {
-            sumOfUnmarked += winningBoardArr[rowIndex][numIndex]
-        }
-        //console.log (sumOfUnmarked);
-        
+    for (i = 0; i <= winNumIndex; i++) {
+        checkedNumbers.push(drawnNumbers[i]);
     }
+    return checkedNumbers;
+}
+
+const numCalledBeforeWin = getNumbersCalledBeforeWin (calledNumArr,winBoardObj.lastNumIndex)
+
+//let lastDrawnNumber = drawnNumbers[drawnNumIndex]
+
+console.log('Numbers drawn until win ', numCalledBeforeWin);
+console.log('Last Drawn Number ', winBoardObj.lastDrawnNum);
+
+function getSumOfUnmarked(board,checkedNumbers) {
+    // Get sum of unmarked numbers on winning board
+    let sumOfUnmarked = 0;
+    for (rowIndex = 0; rowIndex < board.length; rowIndex++) {
+        //console.log('Checking row ', rowIndex);
+            
+        //check each number in the row array
+        for (numIndex = 0; numIndex < board[rowIndex].length; numIndex++) {
+            //console.log('    Checking numIndex ', numIndex);
+            //console.log('    Checking number ', board[rowIndex][numIndex]);
+            if (!checkedNumbers.includes(board[rowIndex][numIndex])) {
+                sumOfUnmarked += board[rowIndex][numIndex]
+            }
+        }
+    }
+    return sumOfUnmarked;
 };
 
-const partOneAnswer = sumOfUnmarked * lastDrawnNumber;
-
-console.log('Answer: ', partOneAnswer);
-
-/* Temp test col code
-
-boards = [
-  [ 14, 21, 17, 24, 4 ],
-  [ 10, 16, 15, 9, 19 ],
-  [ 18, 8, 23, 26, 20 ],
-  [ 22, 11, 13, 6, 5 ],
-  [ 2, 0, 12, 3, 7 ]
-];
-
-for (colIndex = 0; colIndex < 5; colIndex++) {
- let tempColArray = []
- for (rowIndex = 0; rowIndex < 5; rowIndex++) {
-  console.log('col ', colIndex, ' row ', rowIndex);
-  console.log(boards[rowIndex][colIndex]);
-  console.log(tempColArray)
-  tempColArray.push(boards[rowIndex][colIndex]);
- }
- console.log('tempColArray ', tempColArray, 'ColIndex', colIndex)
-};
-
-*/
+console.log('Sum of unmarked: ',getSumOfUnmarked(winBoardObj.winningBoardArr, numCalledBeforeWin));
+    
+console.log('Answer: ', getSumOfUnmarked(winBoardObj.winningBoardArr, numCalledBeforeWin) * winBoardObj.lastDrawnNum);

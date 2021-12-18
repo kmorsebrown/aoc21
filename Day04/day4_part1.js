@@ -1,41 +1,12 @@
+const {testNumInput, puzzleNumInput} = require('./inputNum');
+const {testBoardsInput, puzzleBoardsInput} = require('./inputBoards');
+const {createCalledNumArr, createBoardsArr} = require('./functions');
+
 // Format Drawn Numbers
-const inputNum = require('./inputNum');
-const drawnNumbers = inputNum.split(',');
-
-for (i = 0; i < drawnNumbers.length; i++){
-    drawnNumbers[i] = parseInt(drawnNumbers[i])
-}
-
-//console.log(drawnNumbers);
+const drawnNumbers = createCalledNumArr(puzzleNumInput);
 
 // Format boards
-const inputBoards = require('./inputBoards');
-
-const tempBoards = inputBoards.split('\n').filter(String)
-
-function createBoards( array ) {
-    let tempArray = [];
-    while (array.length > 0) {
-        let arrayElement = array.splice(0,5);
-        tempArray.push(arrayElement);
-    }
-    return tempArray;
-}
-
-const boards = createBoards(tempBoards);
-
-for (var i = 0; i < boards.length; i++) {
-    for (x = 0; x < boards[i].length; x++) {
-        const regex = /\d+/g;
-        const arrayElement = boards[i][0].match(regex);
-        for (y = 0; y < arrayElement.length; y++){
-            arrayElement[y] = parseInt(arrayElement[y])
-        }
-        const newBoard = boards[i].slice(1);
-        newBoard.push(arrayElement);
-        boards[i] = newBoard;
-    }
-}
+const boards = createBoardsArr(puzzleBoardsInput);
 
 //console.log('Boards: ',boards);
 
@@ -162,26 +133,3 @@ for (rowIndex = 0; rowIndex < winningBoardArr.length; rowIndex++) {
 const partOneAnswer = sumOfUnmarked * lastDrawnNumber;
 
 console.log('Answer: ', partOneAnswer);
-
-/* Temp test col code
-
-boards = [
-  [ 14, 21, 17, 24, 4 ],
-  [ 10, 16, 15, 9, 19 ],
-  [ 18, 8, 23, 26, 20 ],
-  [ 22, 11, 13, 6, 5 ],
-  [ 2, 0, 12, 3, 7 ]
-];
-
-for (colIndex = 0; colIndex < 5; colIndex++) {
- let tempColArray = []
- for (rowIndex = 0; rowIndex < 5; rowIndex++) {
-  console.log('col ', colIndex, ' row ', rowIndex);
-  console.log(boards[rowIndex][colIndex]);
-  console.log(tempColArray)
-  tempColArray.push(boards[rowIndex][colIndex]);
- }
- console.log('tempColArray ', tempColArray, 'ColIndex', colIndex)
-};
-
-*/

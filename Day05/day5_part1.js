@@ -1,4 +1,4 @@
-const unformattedData = require('./input');
+const {testInput, puzzleInput} = require('./input');
 
 //Format Data
 function convertCSVtoJsObj(input) {
@@ -20,7 +20,7 @@ function convertCSVtoJsObj(input) {
   
 }
 
-coordinates = convertCSVtoJsObj(unformattedData);
+coordinates = convertCSVtoJsObj(testInput);
 console.log(coordinates);
 
 // Part 1

@@ -1,12 +1,17 @@
-const input = `0,9 -> 5,9
-8,0 -> 0,8
-9,4 -> 3,4
-2,2 -> 2,1
-7,0 -> 7,4
-6,4 -> 2,0
-0,9 -> 2,9
-3,4 -> 1,4
-0,0 -> 8,8
-5,5 -> 8,2`
+// get filesystem module
+const fs = require("fs");
 
-module.exports = input;
+function getFileContents(filename) {
+    // using the readFileSync() function
+    const buffer = fs.readFileSync(__dirname + filename);
+    // and passing the path to the file 
+    return buffer.toString();
+}
+
+testInput = getFileContents("/testInput.txt");
+puzzleInput = getFileContents("/puzzleInput.txt");
+
+module.exports = {
+    testInput,
+    puzzleInput
+};

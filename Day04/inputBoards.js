@@ -1,4 +1,4 @@
-const inputBoards = `22 13 17 11  0
+const testBoardsInput = `22 13 17 11  0
  8  2 23  4 24
 21  9 14 16  7
  6 10  3 18  5
@@ -16,7 +16,7 @@ const inputBoards = `22 13 17 11  0
 22 11 13  6  5
  2  0 12  3  7`;
 
- const inputBoards2 = `31 93 46 11 30
+ const puzzleBoardsInput = `31 93 46 11 30
  2 45 40 69 33
 82 21 37 99 86
 57 16 34 94 85
@@ -616,4 +616,7 @@ const inputBoards = `22 13 17 11  0
 43 47 56 96 20
 87 57 33 37 49`
 
-module.exports = inputBoards;
+module.exports = {
+    testBoardsInput,
+    puzzleBoardsInput
+};
