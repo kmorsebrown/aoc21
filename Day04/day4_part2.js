@@ -83,6 +83,7 @@ function getWinningBoard(boards,calledNumbers) {
                 winningData.winningBoardArr = boards[boardIndex];
                 winningData.lastNumIndex = currentCalledNumIndex;
                 winningData.lastDrawnNum = calledNumbers[currentCalledNumIndex];
+                winningData.boardIndex = boardIndex;
                 break labelCancelLoops;
             }
             
@@ -93,13 +94,14 @@ function getWinningBoard(boards,calledNumbers) {
             currentCalledNumIndex++;
         }
     }
-    winningData.numCalledBeforeWin = getNumbersCalledBeforeWin (calledNumbers,winningData.lastNumIndex)
+    winningData.numCalledBeforeWin = getNumbersCalledBeforeWin (calledNumbers,winningData.lastNumIndex);
+    winningData.sumOfUnmarked = getSumOfUnmarked(winningData.winningBoardArr, winningData.numCalledBeforeWin);
+    winningData.totalScore = winningData.sumOfUnmarked * winningData.lastDrawnNum;
     return winningData;
 }
 
 const winBoardObj = getWinningBoard(boardsArr,calledNumArr);
 console.log(winBoardObj);
 
-console.log('Sum of unmarked: ',getSumOfUnmarked(winBoardObj.winningBoardArr, winBoardObj.numCalledBeforeWin));
-
-console.log('Answer: ', getSumOfUnmarked(winBoardObj.winningBoardArr, winBoardObj.numCalledBeforeWin) * winBoardObj.lastDrawnNum);
+console.log('Sum of unmarked: ',winBoardObj.sumOfUnmarked);
+console.log('Answer: ', winBoardObj.totalScore);

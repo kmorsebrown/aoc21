@@ -15,7 +15,6 @@ const calledNumArr = createCalledNumArr(puzzleNumInput);
 const boardsArr = createBoardsArr(puzzleBoardsInput);
 
 // Part 1
-
 function getWinningBoard(boards,calledNumbers) {
     let winningData = {};
     let currentCalledNumIndex = 0;
@@ -32,7 +31,6 @@ function getWinningBoard(boards,calledNumbers) {
 
         //Check each board
         for (boardIndex = 0; boardIndex < boards.length; boardIndex++) {
-            //console.log('Checking board ' + boardIndex);
 
             //create a new board object inside the tempWinLossBoards array if there isn't one already at the current index
             if (!tempWinLossBoards[boardIndex]) {
@@ -58,7 +56,6 @@ function getWinningBoard(boards,calledNumbers) {
             }
 
             //check each column in the board array
-
             for (colIndex = 0; colIndex < 5; colIndex++) {
                 let tempColArray = []
 
@@ -83,6 +80,7 @@ function getWinningBoard(boards,calledNumbers) {
                 winningData.winningBoardArr = boards[boardIndex];
                 winningData.lastNumIndex = currentCalledNumIndex;
                 winningData.lastDrawnNum = calledNumbers[currentCalledNumIndex];
+                winningData.boardIndex = boardIndex;
                 break labelCancelLoops;
             }
             
@@ -93,13 +91,14 @@ function getWinningBoard(boards,calledNumbers) {
             currentCalledNumIndex++;
         }
     }
-    winningData.numCalledBeforeWin = getNumbersCalledBeforeWin (calledNumbers,winningData.lastNumIndex)
+    winningData.numCalledBeforeWin = getNumbersCalledBeforeWin (calledNumbers,winningData.lastNumIndex);
+    winningData.sumOfUnmarked = getSumOfUnmarked(winningData.winningBoardArr, winningData.numCalledBeforeWin);
+    winningData.totalScore = winningData.sumOfUnmarked * winningData.lastDrawnNum;
     return winningData;
 }
 
 const winBoardObj = getWinningBoard(boardsArr,calledNumArr);
 console.log(winBoardObj);
 
-console.log('Sum of unmarked: ',getSumOfUnmarked(winBoardObj.winningBoardArr, winBoardObj.numCalledBeforeWin));
-
-console.log('Answer: ', getSumOfUnmarked(winBoardObj.winningBoardArr, winBoardObj.numCalledBeforeWin) * winBoardObj.lastDrawnNum);
+console.log('Sum of unmarked: ',winBoardObj.sumOfUnmarked);
+console.log('Answer: ', winBoardObj.totalScore);
