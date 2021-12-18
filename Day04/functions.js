@@ -33,7 +33,46 @@ function createBoardsArr( input ) {
     return tempArray;
 };
 
+function checkEachNumInArrayAgainstValue (array, value) {
+    for (numIndex = 0; numIndex < array.length; numIndex++) {
+        //if the value of the number index is the same as the current array, iterate the match
+        if (array[numIndex] ===  value) {
+            return true;
+        }
+    }
+};
+
+function getNumbersCalledBeforeWin(arrayOfNumbers,index) {
+    let checkedNumbers = [];
+
+    for (i = 0; i <= index; i++) {
+        checkedNumbers.push(arrayOfNumbers[i]);
+    }
+    return checkedNumbers;
+};
+
+function getSumOfUnmarked(board,checkedNumbers) {
+    // Get sum of unmarked numbers on winning board
+    let sumOfUnmarked = 0;
+    for (rowIndex = 0; rowIndex < board.length; rowIndex++) {
+        //console.log('Checking row ', rowIndex);
+            
+        //check each number in the row array
+        for (numIndex = 0; numIndex < board[rowIndex].length; numIndex++) {
+            //console.log('    Checking numIndex ', numIndex);
+            //console.log('    Checking number ', board[rowIndex][numIndex]);
+            if (!checkedNumbers.includes(board[rowIndex][numIndex])) {
+                sumOfUnmarked += board[rowIndex][numIndex]
+            }
+        }
+    }
+    return sumOfUnmarked;
+};
+
 module.exports = {
     createCalledNumArr,
-    createBoardsArr
+    createBoardsArr,
+    checkEachNumInArrayAgainstValue,
+    getNumbersCalledBeforeWin,
+    getSumOfUnmarked
 }
