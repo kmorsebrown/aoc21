@@ -3,7 +3,6 @@ const {testBoardsInput, puzzleBoardsInput} = require('./inputBoards');
 const {
     createCalledNumArr, 
     createBoardsArr, 
-    checkEachNumInArrayAgainstValue, 
     getNumbersCalledBeforeWin,
     getSumOfUnmarked
 } = require('./functions');
@@ -45,7 +44,7 @@ function getWinningBoard(boards,calledNumbers) {
             for (rowIndex = 0; rowIndex < boards[boardIndex].length; rowIndex++) {
 
                 //check each number in the row array
-                if (checkEachNumInArrayAgainstValue (boards[boardIndex][rowIndex], currentCalledNum)) {
+                if (boards[boardIndex][rowIndex].includes(currentCalledNum)) {
                     tempWinLossBoards[boardIndex].rowMatches[rowIndex] += 1;
                 }
 
@@ -65,7 +64,7 @@ function getWinningBoard(boards,calledNumbers) {
                 }
 
                 //check each number in the column array
-                if (checkEachNumInArrayAgainstValue (tempColArray, currentCalledNum)) {
+                if (tempColArray.includes(currentCalledNum)) {
                     tempWinLossBoards[boardIndex].columnMatches[colIndex] += 1;
                 }
 

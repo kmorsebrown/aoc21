@@ -33,15 +33,6 @@ function createBoardsArr( input ) {
     return tempArray;
 };
 
-function checkEachNumInArrayAgainstValue (array, value) {
-    for (numIndex = 0; numIndex < array.length; numIndex++) {
-        //if the value of the number index is the same as the current array, iterate the match
-        if (array[numIndex] ===  value) {
-            return true;
-        }
-    }
-};
-
 function getNumbersCalledBeforeWin(arrayOfNumbers,index) {
     let checkedNumbers = [];
 
@@ -72,7 +63,6 @@ function getSumOfUnmarked(board,checkedNumbers) {
 module.exports = {
     createCalledNumArr,
     createBoardsArr,
-    checkEachNumInArrayAgainstValue,
     getNumbersCalledBeforeWin,
     getSumOfUnmarked
 }
