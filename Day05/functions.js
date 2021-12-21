@@ -17,7 +17,7 @@ function convertCSVtoJsObj(input) {
   
 }
 
-//Create diagram array of horizontal and vertical lines
+//Create diagram empty diagram
 function createDiagram(input) {
     //Get number of rows (add the 1 to account for the 0th index)
     const y1max = Math.max.apply(Math, input.map(function(o) { return o.y1; }));
@@ -40,12 +40,6 @@ function createDiagram(input) {
             arr[i][j] = 0;
         }
     }
-
-    //For every line of vents, check for overlaps
-    for (i = 0; i < coordinates.length; i++) {
-        markLines(arr,coordinates[i]);
-    }
-
     return arr;
 }
 
@@ -70,29 +64,44 @@ function createGridStr(input) {
     return arr;
 }
 
-function markLines(diagram,line) {
-    const yStart = Math.min(line.y1,line.y2);
-    const yEnd = Math.max(line.y1,line.y2);
-    const xStart = Math.min(line.x1, line.x2);
-    const xEnd = Math.max(line.x1, line.x2);
+function markHorizLines(diagram,lines) {
+    let workingArray = diagram;
+    for (i = 0; i < lines.length; i++) {
+        const xStart = Math.min(lines[i].x1, lines[i].x2);
+        const xEnd = Math.max(lines[i].x1, lines[i].x2);
     
-    //Only consider vertical and horizontal lines
-    if (xStart === xEnd) {
-        //Go through row on the vertical column
-        for (yIndex = yStart; yIndex <= yEnd; yIndex++) {
-            diagram[yIndex][xStart] += 1;
-        }
-    // Horizontal line
-    } else if (yStart === yEnd) {
-        for (xIndex = xStart; xIndex <= xEnd; xIndex++) {
-            diagram[yStart][xIndex] += 1;
+        if (lines[i].y1 === lines[i].y2) {
+            for (xIndex = xStart; xIndex <= xEnd; xIndex++) {
+                workingArray[lines[i].y1][xIndex] += 1;
+            }
         }
     }
+
+    return workingArray;
+}
+
+function markVertLines(diagram,lines) {
+    let workingArray = diagram;
+
+    for (i = 0; i < lines.length; i++) {
+        const yStart = Math.min(lines[i].y1,lines[i].y2);
+        const yEnd = Math.max(lines[i].y1,lines[i].y2);
+        
+        //Only consider vertical and horizontal lines
+        if (lines[i].x1 === lines[i].x2) {
+            //Go through row on the vertical column
+            for (yIndex = yStart; yIndex <= yEnd; yIndex++) {
+                workingArray[yIndex][lines[i].x1] += 1;
+            }
+        }
+    }
+    return workingArray;
 }
 
 module.exports = {
     convertCSVtoJsObj,
     createDiagram,
     createGridStr,
-    markLines
+    markHorizLines,
+    markVertLines
 }

@@ -2,7 +2,9 @@ const {testInput, puzzleInput} = require('./input');
 
 const {
     convertCSVtoJsObj,
-    createDiagram
+    createDiagram,
+    markHorizLines,
+    markVertLines
 } = require('./functions');
 const { reduceRight } = require('underscore');
 
@@ -16,6 +18,12 @@ coordinates = convertCSVtoJsObj(puzzleInput);
 
 //Create diagram array of horizontal and vertical lines
 let gridArr = createDiagram(coordinates);
+
+//Mark all the horizontal lines
+gridArr = markHorizLines (gridArr, coordinates);
+
+//Mark all vertical lines
+gridArr = markVertLines (gridArr, coordinates);
 
 //console.log(gridArr);
 
