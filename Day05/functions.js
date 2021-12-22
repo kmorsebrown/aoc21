@@ -66,10 +66,12 @@ function createGridStr(input) {
 
 function markHorizLines(diagram,lines) {
     let workingArray = diagram;
+
     for (i = 0; i < lines.length; i++) {
         const xStart = Math.min(lines[i].x1, lines[i].x2);
         const xEnd = Math.max(lines[i].x1, lines[i].x2);
     
+        //Only consider horizontal lines
         if (lines[i].y1 === lines[i].y2) {
             for (xIndex = xStart; xIndex <= xEnd; xIndex++) {
                 workingArray[lines[i].y1][xIndex] += 1;
@@ -87,11 +89,32 @@ function markVertLines(diagram,lines) {
         const yStart = Math.min(lines[i].y1,lines[i].y2);
         const yEnd = Math.max(lines[i].y1,lines[i].y2);
         
-        //Only consider vertical and horizontal lines
+        //Only consider vertical lines
         if (lines[i].x1 === lines[i].x2) {
-            //Go through row on the vertical column
             for (yIndex = yStart; yIndex <= yEnd; yIndex++) {
                 workingArray[yIndex][lines[i].x1] += 1;
+            }
+        }
+    }
+    return workingArray;
+}
+
+function markDiagLines (diagram,lines) {
+    let workingArray = diagram;
+
+    for (i = 0; i < lines.length; i++) {
+        const x1 = lines[i].x1
+        const x2 = lines[i].x2
+        const y1 = lines[i].y1
+        const y2 = lines[i].y2
+
+        //only consider diagonal lines
+        if ((x1 != x2) && (y1 != y2)) {
+            for (j = 0; j <= Math.abs(x1 - x2); j++) {      
+                let xCur = x1 < x2 ? x1+j : x1-j;
+                let yCur = y1 < y2 ? y1+j : y1-j;
+          
+                workingArray[yCur][xCur] += 1;
             }
         }
     }
@@ -103,5 +126,6 @@ module.exports = {
     createDiagram,
     createGridStr,
     markHorizLines,
-    markVertLines
+    markVertLines,
+    markDiagLines
 }
