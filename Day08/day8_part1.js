@@ -43,3 +43,17 @@ function getPartOneSolution (obj) {
 
 console.log ('Testing Answer:',getPartOneSolution(testOutputLengthCounts));
 console.log ('Puzzle Answer:',getPartOneSolution(puzzleOutputLengthCounts));
+
+/*
+number = {
+    't': 'a',
+    'tl': 'b',
+    'tr': 'c',
+    'm': 'd',
+    'bl': 'e',
+    'br': 'f',
+    'b': 'g'
+}
+
+if (t)
+*/
